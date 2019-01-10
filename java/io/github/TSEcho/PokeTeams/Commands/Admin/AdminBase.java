@@ -9,6 +9,8 @@ import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.service.pagination.PaginationList;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColors;
+
+import io.github.TSEcho.PokeTeams.Commands.Tag;
 import io.github.TSEcho.PokeTeams.Settings.Permissions;
 
 public class AdminBase implements CommandExecutor {
@@ -19,11 +21,11 @@ public class AdminBase implements CommandExecutor {
 		PaginationList.builder()
 		.title(Text.of(TextColors.YELLOW, "PokeTeams Admin"))
 		.contents(
-				Text.of(TextColors.YELLOW, "/teams set <player> <team>"),
-				Text.of(TextColors.YELLOW, "/teams delete <team>"),
-				Text.of(TextColors.YELLOW, "/teams kick <team> <name>"),
-				Text.of(TextColors.YELLOW, "/teams rename <team>"),
-				Text.of(TextColors.YELLOW, "/teams list"))
+				Text.of(TextColors.YELLOW, "/teams admin set <player> <team>"),
+				Text.of(TextColors.YELLOW, "/teams admin delete <team>"),
+				Text.of(TextColors.YELLOW, "/teams admin kick <team> <name>"),
+				Text.of(TextColors.YELLOW, "/teams admin rename <team>"),
+				Text.of(TextColors.YELLOW, "/teams admin tag <tag>"))
 		.padding(Text.of(TextColors.RED, "="))
 		.sendTo(src);
 		
@@ -39,7 +41,7 @@ public class AdminBase implements CommandExecutor {
 				.child(Delete.build(), "delete")
 				.child(Rename.build(), "rename")
 				.child(Kick.build(), "kick")
-				.child(List.build(), "list")
+				.child(Tag.build(), "tag")
 				.build();
 	}
 }

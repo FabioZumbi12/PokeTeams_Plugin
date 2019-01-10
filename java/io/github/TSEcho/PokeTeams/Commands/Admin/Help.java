@@ -19,11 +19,11 @@ public class Help implements CommandExecutor {
 		PaginationList.builder()
 		.title(Text.of(TextColors.YELLOW, "PokeTeams Admin"))
 		.contents(
-				Text.of(TextColors.YELLOW, "/teams set <player> <team>"),
-				Text.of(TextColors.YELLOW, "/teams delete <team>"),
-				Text.of(TextColors.YELLOW, "/teams kick <team> <name>"),
-				Text.of(TextColors.YELLOW, "/teams rename <team>"),
-				Text.of(TextColors.YELLOW, "/teams list"))
+				Text.of(TextColors.YELLOW, "/teams admin set <player> <team>"),
+				Text.of(TextColors.YELLOW, "/teams admin delete <team>"),
+				Text.of(TextColors.YELLOW, "/teams admin kick <team> <name>"),
+				Text.of(TextColors.YELLOW, "/teams admin rename <team>"),
+				Text.of(TextColors.YELLOW, "/teams admin tag <tag>"))
 		.padding(Text.of(TextColors.RED, "="))
 		.sendTo(src);
 		
