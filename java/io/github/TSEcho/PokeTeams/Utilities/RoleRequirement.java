@@ -38,6 +38,8 @@ public class RoleRequirement {
 	//returns if a place is in a team
 	public boolean inTeam() {
 		
+		amountPlayers = 0;
+		
 		//loop through teams
 		for (Map.Entry<Object, ? extends CommentedConfigurationNode> teams : ConfigurationManager
 				.storNode.getNode("Teams").getChildrenMap().entrySet()) {
@@ -120,6 +122,11 @@ public class RoleRequirement {
 		return ConfigurationManager.confNode.getNode("Team-Settings", "Roles", role, "Base-Teleport").getBoolean();
 	}
 	
+	//if the user can set a tag
+	public boolean canSetTag() {
+		return ConfigurationManager.confNode.getNode("Team-Settings", "Roles", role, "Tag-Set").getBoolean();
+	}
+
 	//if the user has a base set in their team
 	public boolean hasBase() {
 		return !ConfigurationManager.storNode.getNode("Teams", team, "Location").isVirtual();
@@ -182,5 +189,13 @@ public class RoleRequirement {
 	//team name
 	public String getTeam() {
 		return team;
+	}
+	
+	//team tag
+	public String getTag() {
+		if(!ConfigurationManager.storNode.getNode("Teams", team, "Tag").isVirtual())
+			return ConfigurationManager.storNode.getNode("Teams", team, "Tag").getString();
+		else 
+			return ConfigurationManager.confNode.getNode("Placeholder-Settings", "Default-TeamTag").getString();
 	}
 }
