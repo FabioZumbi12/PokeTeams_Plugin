@@ -22,11 +22,13 @@ public class Help implements CommandExecutor {
 
 		ArrayList<Text> help = new ArrayList<Text>();
 		help.add(Text.of(TextColors.RED, "/teams leaderboard"));
+		help.add(Text.of(TextColors.RED, "/teams list"));
 		help.add(Text.of(TextColors.RED, "/teams create <team>"));
 		help.add(Text.of(TextColors.RED, "/teams delete"));
 		help.add(Text.of(TextColors.RED, "/teams info"));
 		help.add(Text.of(TextColors.RED, "/teams invite"));
 		help.add(Text.of(TextColors.RED, "/teams kick <player>"));
+		help.add(Text.of(TextColors.RED, "/teams tag <tag>"));
 		
 		if(Sponge.getPluginManager().getPlugin("ultimatechat").isPresent() ||
 				Sponge.getPluginManager().getPlugin("nucleus").isPresent()) {
@@ -36,6 +38,9 @@ public class Help implements CommandExecutor {
 		
 		help.add(Text.of(TextColors.RED, "/teams base"));
 		help.add(Text.of(TextColors.RED, "/teams base set"));
+		help.add(Text.of(TextColors.RED, "/teams queue"));
+		help.add(Text.of(TextColors.RED, "/teams queue join"));
+		help.add(Text.of(TextColors.RED, "/teams queue leave"));
 		help.add(Text.of(TextColors.RED, "/teams admin"));
 		
 		

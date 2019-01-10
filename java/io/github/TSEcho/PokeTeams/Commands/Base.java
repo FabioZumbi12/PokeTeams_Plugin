@@ -15,6 +15,7 @@ import org.spongepowered.api.text.format.TextColors;
 
 import io.github.TSEcho.PokeTeams.Commands.Admin.AdminBase;
 import io.github.TSEcho.PokeTeams.Commands.Bases.BasesBase;
+import io.github.TSEcho.PokeTeams.Commands.Queue.QueueBase;
 import io.github.TSEcho.PokeTeams.Settings.Permissions;
 
 public class Base implements CommandExecutor{
@@ -24,11 +25,13 @@ public class Base implements CommandExecutor{
 
 		ArrayList<Text> help = new ArrayList<Text>();
 		help.add(Text.of(TextColors.RED, "/teams leaderboard"));
+		help.add(Text.of(TextColors.RED, "/teams list"));
 		help.add(Text.of(TextColors.RED, "/teams create <team>"));
 		help.add(Text.of(TextColors.RED, "/teams delete"));
 		help.add(Text.of(TextColors.RED, "/teams info"));
 		help.add(Text.of(TextColors.RED, "/teams invite"));
 		help.add(Text.of(TextColors.RED, "/teams kick <player>"));
+		help.add(Text.of(TextColors.RED, "/teams tag <tag>"));
 		
 		if(Sponge.getPluginManager().getPlugin("ultimatechat").isPresent() ||
 				Sponge.getPluginManager().getPlugin("nucleus").isPresent()) {
@@ -38,6 +41,9 @@ public class Base implements CommandExecutor{
 		
 		help.add(Text.of(TextColors.RED, "/teams base"));
 		help.add(Text.of(TextColors.RED, "/teams base set"));
+		help.add(Text.of(TextColors.RED, "/teams queue"));
+		help.add(Text.of(TextColors.RED, "/teams queue join"));
+		help.add(Text.of(TextColors.RED, "/teams queue leave"));
 		help.add(Text.of(TextColors.RED, "/teams admin"));
 		
 		
@@ -66,9 +72,12 @@ public class Base implements CommandExecutor{
 				.child(Promote.build(), "promote")
 				.child(Demote.build(), "demote")
 				.child(Kick.build(), "kick")
+				.child(List.build(), "list")
 				.child(Leaderboard.build(), "leaderboard")
+				.child(Tag.build(), "tag")
 				.child(BasesBase.build(), "base")
 				.child(AdminBase.build(), "admin")
+				.child(QueueBase.build(), "queue")
 				.build();
 	}
 }
