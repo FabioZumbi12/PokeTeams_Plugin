@@ -3,6 +3,8 @@ package io.github.TSEcho.PokeTeams.Utilities;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.entity.living.player.Player;
 
+import io.github.TSEcho.PokeTeams.Configuration.ConfigurationManager;
+
 public class PlaceholderAPI {
 	
 	public static String getTeam(CommandSource src) {
@@ -11,7 +13,17 @@ public class PlaceholderAPI {
 		if(role.inTeam()) {
 			return role.getTeam();
 		} else {
-			return "Solo";
+			return ConfigurationManager.confNode.getNode("Placeholder-Settings", "Default-TeamName").getString();
+		}
+	}
+	
+	public static String getTag(CommandSource src) {
+		RoleRequirement role = new RoleRequirement((Player) src);
+		
+		if(role.inTeam()) { 
+			return role.getTag();
+		} else {
+			return ConfigurationManager.confNode.getNode("Placeholder-Settings", "Default-TeamTag").getString();
 		}
 	}
 	

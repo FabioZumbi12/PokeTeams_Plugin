@@ -20,8 +20,7 @@ public class CatchingManager {
 		addStats();
 	}
 	
-	private void addStats() {
-		
+	private void addStats() {	
 		if(role.inTeam()) {
 			ConfigurationManager.storNode.getNode("Teams", role.getTeam(), "Stats", "Caught").setValue(role.getCaught() + 1);
 			ConfigurationManager.save();

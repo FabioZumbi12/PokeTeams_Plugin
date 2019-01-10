@@ -1,4 +1,4 @@
-package io.github.TSEcho.PokeTeams.Commands.Admin;
+package io.github.TSEcho.PokeTeams.Commands;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -49,7 +49,7 @@ public class List implements CommandExecutor {
 	
 	public static CommandSpec build() {
 		return CommandSpec.builder()
-				.permission(Permissions.ADMIN_LIST)
+				.permission(Permissions.LIST)
 				.executor(new List())
 				.build();
 	}

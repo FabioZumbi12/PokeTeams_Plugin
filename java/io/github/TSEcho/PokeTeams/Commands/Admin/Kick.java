@@ -67,14 +67,14 @@ public class Kick implements CommandExecutor {
 			//if there is only 1 player
 			if(role.getMemberTotal() == 1) {
 				
-				ConfigurationManager.storNode.getNode("Team", team).setValue(null);
+				ConfigurationManager.storNode.getNode("Teams", team).setValue(null);
 				ConfigurationManager.save();
 				messagePlayer();
 				Utils.removeChat(player.getName());
 				
 			} else {
 				
-				ConfigurationManager.storNode.getNode("Team", team, player.getName()).setValue(null);
+				ConfigurationManager.storNode.getNode("Teams", team, player.getName()).setValue(null);
 				ConfigurationManager.save();
 				Utils.removeChat(player.getName());
 				messagePlayer();

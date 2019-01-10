@@ -1,6 +1,7 @@
 package io.github.TSEcho.PokeTeams;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
@@ -17,6 +18,7 @@ import org.spongepowered.api.event.game.state.GameStartedServerEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
+import org.spongepowered.api.scheduler.Task;
 
 import com.google.inject.Inject;
 import com.pixelmonmod.pixelmon.Pixelmon;
@@ -29,6 +31,7 @@ import io.github.TSEcho.PokeTeams.Configuration.ConfigurationManager;
 import io.github.TSEcho.PokeTeams.EventListeners.UChatListener;
 import io.github.TSEcho.PokeTeams.Pixelmon.BattleManager;
 import io.github.TSEcho.PokeTeams.Pixelmon.CatchingManager;
+import io.github.TSEcho.PokeTeams.Pixelmon.QueueManager;
 import io.github.TSEcho.PokeTeams.Settings.WorldInfo;
 import io.github.TSEcho.PokeTeams.Utilities.PlaceholderAPI;
 import io.github.TSEcho.PokeTeams.Utilities.Utils;
@@ -50,7 +53,7 @@ public class PokeTeams {
 
 	public static final String ID = "poketeams";
 	public static final String NAME = "PokeTeams";
-	public static final String VERSION = "1.3.0";
+	public static final String VERSION = "2.0.0";
 	public static final String AUTHORS = "TSEcho";
 	public static final String DESCRIPTION = "Teams plugin with Pixelmon Reforged Support";
 	
@@ -69,6 +72,7 @@ public class PokeTeams {
 		instance = this;
 		ConfigurationManager.setup(dir);
 		ConfigurationManager.load();
+		ConfigurationManager.update();
 	}
 	
 	@Listener
@@ -77,7 +81,6 @@ public class PokeTeams {
 		Pixelmon.EVENT_BUS.register(instance);
 
 		if(Sponge.getPluginManager().getPlugin("ultimatechat").isPresent()) {
-			
 			Sponge.getEventManager().registerListener(instance, SendChannelMessageEvent.class, Order.FIRST, new UChatListener());
 		} 
 	}
@@ -86,6 +89,12 @@ public class PokeTeams {
 	public void onStart(GameStartedServerEvent e) {
 		WorldInfo.init();
 		loadPlaceholders();
+		
+		Task.builder()
+			.name(ID)
+			.interval(ConfigurationManager.confNode.getNode("Battle-Settings", "Queue-Timer").getInt(), TimeUnit.SECONDS)
+			.execute(() -> QueueManager.choosePlayers())
+			.submit(instance);
 	}
 	
 	@Listener
@@ -111,6 +120,11 @@ public class PokeTeams {
 	@Placeholder(id = "team")
 	public String getTeam(@Source CommandSource src) {
 		return PlaceholderAPI.getTeam(src);
+	}
+	
+	@Placeholder(id = "tag")
+	public String getTag(@Source CommandSource src) {
+		return PlaceholderAPI.getTag(src);
 	}
 	
 	@Placeholder(id = "team_wins")
@@ -156,6 +170,8 @@ public class PokeTeams {
 					return builder.description("Player's team's win/loss ratio");
 				case "team_caught":
 					return builder.description("Player's team's total caught pokemon");
+				case "team_tag":
+					return builder.description("Player's team's custom tag");
 			}
 			
 			return builder;

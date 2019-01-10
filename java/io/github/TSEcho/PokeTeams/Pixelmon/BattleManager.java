@@ -5,6 +5,7 @@ import java.util.Map;
 import org.spongepowered.api.entity.Entity;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.text.Text;
+import org.spongepowered.api.text.format.TextColors;
 
 import com.pixelmonmod.pixelmon.api.events.battles.BattleEndEvent;
 import com.pixelmonmod.pixelmon.battles.controller.participants.BattleParticipant;
@@ -53,14 +54,8 @@ public class BattleManager {
 	
 	//adding stats after battle
 	private void addStats() {
-		
-		if(role.inTeam()) {
-			ConfigurationManager.storNode.getNode("Teams", role.getTeam(), "Record", "Wins").setValue(role.getWins() + 1);
-		}
-		
-		if(roleOther.inTeam()) {
-			ConfigurationManager.storNode.getNode("Teams", roleOther.getTeam(), "Record", "Losses").setValue(roleOther.getLosses() + 1);
-		}
+		ConfigurationManager.storNode.getNode("Teams", role.getTeam(), "Record", "Wins").setValue(role.getWins() + 1);
+		ConfigurationManager.storNode.getNode("Teams", roleOther.getTeam(), "Record", "Losses").setValue(roleOther.getLosses() + 1);
 		
 		ConfigurationManager.save();
 	}
@@ -68,16 +63,12 @@ public class BattleManager {
 	//sending message results
 	private void messagePlayers() {
 		
-		if(role.inTeam()) {
-			if(ConfigurationManager.storNode.getNode("Battle-Settings", "Message-Winners").getBoolean()) {
-				winner.sendMessage(Text.of("You beat " + loser.getName() +  " - New Record: " + role.getWins() + "/" + role.getLosses()));
-			}
+		if(ConfigurationManager.storNode.getNode("Battle-Settings", "Message-Winners").getBoolean()) {
+			winner.sendMessage(Text.of(TextColors.GREEN, "You beat " + loser.getName() +  " - New Record: " + role.getWins() + "/" + role.getLosses()));
 		}
 
-		if(roleOther.inTeam()) {
-			if(ConfigurationManager.storNode.getNode("Battle-Settings", "Message-Losers").getBoolean()) {
-				loser.sendMessage(Text.of("You lost against " + winner.getName() +  " - New Record: " + role.getWins() + "/" + role.getLosses()));
-			}
+		if(ConfigurationManager.storNode.getNode("Battle-Settings", "Message-Losers").getBoolean()) {
+			loser.sendMessage(Text.of(TextColors.RED, "You lost against " + winner.getName() +  " - New Record: " + role.getWins() + "/" + role.getLosses()));
 		}
 	}
 	

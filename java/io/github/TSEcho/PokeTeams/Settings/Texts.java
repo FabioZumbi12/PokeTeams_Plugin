@@ -24,6 +24,13 @@ public class Texts {
 	public static final Text NEEDS_LEADER = TextSerializers.FORMATTING_CODE.deserialize("&cTeam needs to have an owner!");
 	public static final Text NOT_EXISTS = TextSerializers.FORMATTING_CODE.deserialize("&cThis team does not exist!");
 	
+	//queue battle messages
+	public static final Text ADDED_QUEUE = TextSerializers.FORMATTING_CODE.deserialize("&aYou have been added to the queue");
+	public static final Text LEAVE_QUEUE = TextSerializers.FORMATTING_CODE.deserialize("&cYou have been removed from the queue");
+	public static final Text ALREADY_IN_QUEUE = TextSerializers.FORMATTING_CODE.deserialize("&cYou are already in the queue");
+	public static final Text START_BATTLE = TextSerializers.FORMATTING_CODE.deserialize("&aYou have been matched and your battle starts in 5 seconds!");
+	public static final Text NOT_IN_QUEUE = TextSerializers.FORMATTING_CODE.deserialize("&cYou are not in the queue");
+
 	//success messages
 	public static final Text CREATED_TEAM = TextSerializers.FORMATTING_CODE.deserialize("&aYou are not in a team");
 	public static final Text DELETED_TEAM = TextSerializers.FORMATTING_CODE.deserialize("&aThis team has been disbanded");
@@ -34,5 +41,6 @@ public class Texts {
 	public static final Text LEFT = TextSerializers.FORMATTING_CODE.deserialize("&aYou have left your team!");
 	public static final Text ADDED_CHAT = TextSerializers.FORMATTING_CODE.deserialize("&bYou are now in your team chat!");
 	public static final Text REMOVED_CHAT = TextSerializers.FORMATTING_CODE.deserialize("&bYou have left your team chat!");
+	public static final Text RESET_TEAM = TextSerializers.FORMATTING_CODE.deserialize("&cThis team has been reset!");
 
 }
