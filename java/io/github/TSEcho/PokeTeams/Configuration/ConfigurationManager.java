@@ -70,4 +70,26 @@ public class ConfigurationManager {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void update() {
+		if(confNode.getNode("Placeholder-Settings", "Default-TeamName").isVirtual()) {
+			confNode.getNode("Placeholder-Settings", "Default-TeamName").setValue("&bSolo");
+		}
+		
+		if(confNode.getNode("Placeholder-Settings", "Default-TeamTag").isVirtual()) {
+			confNode.getNode("Placeholder-Settings", "Default-TeamTag").setValue("");
+		}
+		
+		for(String role : Defaults.getRoles()) {
+			if(confNode.getNode("Team-Settings", "Roles", role, "Tag-Set").isVirtual()) {
+				confNode.getNode("Team-Settings", "Roles", role, "Tag-Set").setValue(true);
+			}
+		}
+		
+		if(confNode.getNode("Battle-Settings", "Queue-Timer").isVirtual()) {
+			confNode.getNode("Battle-Settings", "Queue-Timer").setValue(10);
+		}
+		
+		save();
+	}
 }

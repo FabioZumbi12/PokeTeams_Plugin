@@ -12,15 +12,19 @@ public class Defaults {
 	
 	public static void configSetup() {
 		
-		roles.add("Officer");
-		roles.add("Member");
 		roles.add("Grunt");
+		roles.add("Member");
+		roles.add("Officer");
 		roles.add("Owner");
-		
+				
 		ConfigurationManager.confNode.getNode("Team-Settings", "Name", "Max-Length").setValue(12);
 		ConfigurationManager.confNode.getNode("Team-Settings", "Name", "Use-Censor").setValue(true);
 		ConfigurationManager.confNode.getNode("Team-Settings", "Max-Members").setValue(8);
 		
+		ConfigurationManager.confNode.getNode("Placeholder-Settings", "Default-TeamName").setValue("&bSolo");
+		ConfigurationManager.confNode.getNode("Placeholder-Settings", "Default-TeamTag").setValue("");
+
+		ConfigurationManager.confNode.getNode("Battle-Settings", "Queue-Timer").setValue(10);
 		ConfigurationManager.confNode.getNode("Battle-Settings", "Message-Winners").setValue(true);
 		ConfigurationManager.confNode.getNode("Battle-Settings", "Message-Losers").setValue(true);
 		ConfigurationManager.confNode.getNode("Battle-Settings", "Record-All-Battles").setValue(false)
@@ -41,6 +45,7 @@ public class Defaults {
 			ConfigurationManager.confNode.getNode("Team-Settings", "Roles", role, "Base-Set").setValue(true);
 			ConfigurationManager.confNode.getNode("Team-Settings", "Roles", role, "Chat").setValue(true);
 			ConfigurationManager.confNode.getNode("Team-Settings", "Roles", role, "Base-Teleport").setValue(true);
+			ConfigurationManager.confNode.getNode("Team-Settings", "Roles", role, "Tag-Set").setValue(true);
 		}
 	}
 	
@@ -57,5 +62,15 @@ public class Defaults {
 			words.add(word);
 		}
 		return words;
+	}
+	
+	public static ArrayList<String> getRoles() {
+		roles.clear();
+		roles.add("Grunt");
+		roles.add("Member");
+		roles.add("Officer");
+		roles.add("Owner");
+		
+		return roles;
 	}
 }

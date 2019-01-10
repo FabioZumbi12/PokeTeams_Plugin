@@ -1,8 +1,5 @@
 package io.github.TSEcho.PokeTeams.EventListeners;
 
-import java.util.HashSet;
-import java.util.Map;
-
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.EventListener;
@@ -14,17 +11,14 @@ import io.github.TSEcho.PokeTeams.Configuration.ConfigurationManager;
 import io.github.TSEcho.PokeTeams.Settings.Permissions;
 import io.github.TSEcho.PokeTeams.Utilities.RoleRequirement;
 import io.github.TSEcho.PokeTeams.Utilities.Utils;
-import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 
 public class UChatListener implements EventListener<SendChannelMessageEvent>{
 
 	private SendChannelMessageEvent event;
 	private Player player;
-	private String user;
 	private String message, prefix, chatColor;
 	private Text newMessage, staffMessage;
 	private RoleRequirement role;
-	private HashSet<String> sendPlayers = new HashSet<String>();
 	
 	@Override
 	public void handle(SendChannelMessageEvent e) throws Exception {
@@ -43,6 +37,7 @@ public class UChatListener implements EventListener<SendChannelMessageEvent>{
 		prefix = ConfigurationManager.confNode.getNode("Chat-Settings", "Prefix").getString();
 		prefix = prefix.replaceAll("%team%", role.getTeam());
 		prefix = prefix.replaceAll("%player%", player.getName());
+		prefix = prefix.replaceAll("%teamtag%", role.getTag());
 		
 		chatColor = ConfigurationManager.confNode.getNode("Chat-Settings", "Chat-Color").getString();
 		message = TextSerializers.FORMATTING_CODE.serialize(event.getMessage());
@@ -55,39 +50,29 @@ public class UChatListener implements EventListener<SendChannelMessageEvent>{
 		event.setCancelled(true);
 	}
 	
-	//sends new message to all members of a team
-	private void sendMessages() {
-	
-		//loop through members
-		for (Map.Entry<Object, ? extends CommentedConfigurationNode> members : ConfigurationManager
-				.storNode.getNode("Teams", role.getTeam(), "Members").getChildrenMap().entrySet()) {
+	//loops through online players and sends messages dependant on teams and social spy
+	private void sendMessages() {		
+		for(Player members : Sponge.getServer().getOnlinePlayers()) {
 			
-			//adds user to the list of people to send the message to
-			user = members.getKey().toString();
-			sendPlayers.add(user);
-		}
-		
-		//if social spy is true, send messages to staff
-		if(ConfigurationManager.confNode.getNode("Chat-Settings", "Players-SocialSpy").getBoolean()) {
-			
-			for(Player staff : Sponge.getServer().getOnlinePlayers()) {
-				
-				if(staff.hasPermission(Permissions.SOCIAL_SPY)) {
-					
-					staff.sendMessage(staffMessage);
-				}
+			if(inTeam(members)) {
+				members.sendMessage(newMessage);
+			} else if(isStaff(members)) {
+				members.sendMessage(staffMessage);
 			}
 		}
-		
-		//sends the message if the player is present
-		if(Sponge.getServer().getPlayer(user).isPresent()) {
-			Sponge.getServer().getPlayer(user).get().sendMessage(newMessage);
-		}
-		
+
 		//if console social spy is true, messages console 
 		if(ConfigurationManager.confNode.getNode("Chat-Settings", "Console-SocialSpy").getBoolean()) {
 			Sponge.getServer().getConsole().sendMessage(newMessage);
 		}
+	}
+	
+	private boolean inTeam(Player members) {
+		return !ConfigurationManager.storNode.getNode("Teams", role.getTeam(), "Members", members.getName()).isVirtual();
+	}
+	
+	private boolean isStaff(Player members) {
+		return ConfigurationManager.confNode.getNode("Chat-Settings", "Players-SocialSpy").getBoolean() && members.hasPermission(Permissions.SOCIAL_SPY);
 	}
 	
 	private boolean isPlayer() {
@@ -99,7 +84,6 @@ public class UChatListener implements EventListener<SendChannelMessageEvent>{
 			role = new RoleRequirement(player);
 			
 			return true;
-			
 		} else {
 			return false;
 		}
